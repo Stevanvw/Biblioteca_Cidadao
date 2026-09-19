@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login · Sistema de Biblioteca</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=PT+Serif:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="pagina-login">
+
+  <main class="page-main page-main--login">
+    <div class="ficha ficha-login">
+      <span class="site-brand">Bem-vindo!<span></span></span>
+      <p class="site-tagline">Sistema interno de gestão da Biblioteca Cidadão excluisivo para funcionários</p>
+
+      <p class="aviso-dev">
+        Dúvidas sobre suas informações de login? entre em contato com:
+        secretariaEstadualDoParana@gov.edu.br
+      </p>
+
+      <h1 class="page-title" style="border:none; padding:0; text-align:center;">Entrar</h1>
+
+      <!--
+        TODO (PHP): troque a action pelo nome do seu script (ex.: "login.php").
+        Depois de validar e-mail/senha e criar a $_SESSION, redirecione para
+        index.html (ou index.php). O login não faz parte da navegação do
+        sistema — é a porta de entrada antes dela.
+      -->
+      <form method="POST" action="login.php">
+        <div class="campo">
+          <label for="login-email">E-mail <span class="obrigatorio">*</span></label>
+          <input type="email" id="login-email" name="email" required autocomplete="username" />
+        </div>
+
+        <div class="campo">
+          <label for="login-senha">Senha <span class="obrigatorio">*</span></label>
+          <input type="password" id="login-senha" name="senha" required autocomplete="current-password" />
+        </div>
+
+        <button type="submit" class="botao botao--primario" style="width:100%;">Entrar</button>
+
+      </form>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    Projeto acadêmico UTFPR, Web servidor — Autores: Luis Stevan, Rayane Alves e Gleice Emilly.  
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
