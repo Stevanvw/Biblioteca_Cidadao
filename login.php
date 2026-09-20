@@ -13,7 +13,7 @@ session_start();
     $dados = file_get_contents("usuario.json");
     $credenciais = json_decode($dados, true);
 
-    if ($usuario == $credenciais["usuario"] && $senha == $credenciais["senha"]) {
+    if ($usuario == $credenciais["login"] && $senha == $credenciais["senha"]) {
     $_SESSION['logado'] = true;
     header("Location: index.php");
     exit;
