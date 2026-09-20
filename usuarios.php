@@ -1,3 +1,12 @@
+<?php 
+session_start();
+
+    if (!isset($_SESSION["logado"]) || $_SESSION["logado"] != true) {
+    header ("Location: login.html");
+    exit;
+  }
+?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -13,7 +22,7 @@
 
   <header class="site-header">
     <div class="site-header__identity">
-      <a href="index.html">
+      <a href="index.php">
         <span class="site-brand">Biblioteca Cidadão<span></span></span>
         <p class="site-tagline">Sistema interno de gestão da biblioteca</p>
       </a>
@@ -21,10 +30,10 @@
     </div>
     <nav class="drawer-nav" id="menu-principal" aria-label="Navegação principal">
       <ul>
-        <li><a href="index.html">Início</a></li>
-        <li><a href="livros.html">Livros</a></li>
-        <li><a href="usuarios.html" aria-current="page">Usuários</a></li>
-        <li><a href="emprestimos.html">Empréstimos</a></li>
+        <li><a href="index.php">Início</a></li>
+        <li><a href="livros.php">Livros</a></li>
+        <li><a href="usuarios.php" aria-current="page">Usuários</a></li>
+        <li><a href="emprestimos.php">Empréstimos</a></li>
         <li><a href="login.html">Encerrar sessão</a></li>
       </ul>
     </nav>
@@ -32,8 +41,7 @@
 
   <main class="page-main">
     <h1 class="page-title">Cadastro de usuários</h1>
-      <!--lista de usuários alimenta o formulário de empréstimos-->
-    
+
     <div class="ficha">
       <div class="ficha__cabecalho">
         <div><strong>Informações para o cadastro do usúario</strong></div>

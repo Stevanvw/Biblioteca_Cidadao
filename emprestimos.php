@@ -1,3 +1,11 @@
+<?php
+session_start();
+
+    if (!isset($_SESSION["logado"]) || $_SESSION["logado"] != "true") {
+    header("Location: login.html");
+    exit;
+}
+?>
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>
@@ -12,7 +20,7 @@
 
   <header class="site-header">
     <div class="site-header__identity">
-      <a href="index.html">
+      <a href="index.php">
         <span class="site-brand">Biblioteca Cidadão<span></span></span>
         <p class="site-tagline">Sistema interno de gestão da biblioteca</p>
       </a>
@@ -20,10 +28,10 @@
     </div>
     <nav class="drawer-nav" id="menu-principal" aria-label="Navegação principal">
       <ul>
-        <li><a href="index.html">Início</a></li>
-        <li><a href="livros.html">Livros</a></li>
-        <li><a href="usuarios.html">Usuários</a></li>
-        <li><a href="emprestimos.html" aria-current="page">Empréstimos</a></li>
+        <li><a href="index.php">Início</a></li>
+        <li><a href="livros.php">Livros</a></li>
+        <li><a href="usuarios.php">Usuários</a></li>
+        <li><a href="emprestimos.php" aria-current="page">Empréstimos</a></li>
         <li><a href="login.html">Encerrar sessão</a></li>
       </ul>
     </nav>

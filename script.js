@@ -17,6 +17,7 @@
 document.addEventListener("DOMContentLoaded", () => {
   ativarMenuMobile();
   marcarLinkAtivo();
+  mostrarErroLogin();
 });
 
 /* -------------------------------------------------------------------------
@@ -50,3 +51,15 @@ function marcarLinkAtivo() {
     }
   });
 }
+
+// Mostra a mensagem de erro escondida
+function mostrarErroLogin(){
+  const parametros = new URLSearchParams(window.location.search);
+  if (parametros.get("erro") === "1"){
+    const mensagem = document.getElementById("mensagem-erro");
+    if (mensagem) {
+      mensagem.style.display = "block";
+    }
+   }
+  }
+
