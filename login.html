@@ -22,12 +22,11 @@
 
       <h1 class="page-title" style="border:none; padding:0; text-align:center;">Entrar</h1>
 
-      <!--
-        TODO (PHP): troque a action pelo nome do seu script (ex.: "login.php").
-        Depois de validar e-mail/senha e criar a $_SESSION, redirecione para
-        index.html (ou index.php). O login não faz parte da navegação do
-        sistema — é a porta de entrada antes dela.
-      -->
+      <p id="mensagem-erro" class="mensagem-erro" style="display:none;">
+      E-mail ou senha incorretos. Tente novamente.
+      </p>
+
+      
       <form method="POST" action="login.php">
         <div class="campo">
           <label for="login-email">E-mail <span class="obrigatorio">*</span></label>
