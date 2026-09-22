@@ -1,0 +1,10 @@
+{
+  "autores": [
+    { "id": 1, "nome": "J.R.R. Tolkien" },
+    { "id": 2, "nome": "George Orwell" },
+    { "id": 3, "nome": "Machado de Assis" },
+    { "id": 4, "nome": "Clarice Lispector" },
+    { "id": 5, "nome": "Isaac Asimov" },
+    { "id": 6, "nome": "Robert C. Martin" }
+  ]
+}

@@ -1,10 +1,13 @@
-<?php 
-session_start();
+<?php
+require_once __DIR__ . '/livroController.php';
 
-    if (!isset($_SESSION["logado"]) || $_SESSION["logado"] != true) {
-    header ("Location: login.html");
-    exit;
-  }
+$controller = new LivroController();
+$resultado = $controller->processar();
+
+$livros = $resultado['livros'];
+$autores = $resultado['autores'];
+$categorias = $resultado['categorias'];
+$erros = $resultado['erros'];
 ?>
 
 <!DOCTYPE html>
@@ -30,7 +33,7 @@ session_start();
     <nav class="drawer-nav" id="menu-principal" aria-label="Navegação principal">
       <ul>
         <li><a href="index.html">Início</a></li>
-        <li><a href="livros.html" aria-current="page">Livros</a></li>
+        <li><a href="livros.php" aria-current="page">Livros</a></li>
         <li><a href="usuarios.html">Usuários</a></li>
         <li><a href="emprestimos.html">Empréstimos</a></li>
         <li><a href="login.html">Encerrar sessão</a></li>
@@ -41,14 +44,27 @@ session_start();
   <main class="page-main">
     <h1 class="page-title">Cadastro de livros</h1>
 
+    <?php if (!empty($erros)): ?>
+      <div class="mensagem mensagem--erro">
+        <ul>
+          <?php foreach ($erros as $erro): ?>
+            <li><?= htmlspecialchars($erro) ?></li>
+          <?php endforeach; ?>
+        </ul>
+      </div>
+    <?php endif; ?>
+
+    <?php if (isset($_GET['sucesso'])): ?>
+      <div class="mensagem mensagem--sucesso">Livro cadastrado com sucesso!</div>
+    <?php endif; ?>
+
     <div class="ficha">
       <div class="ficha__cabecalho">
         <div><strong>Informações do livro</strong></div>
         <span class="ficha__codigo">novo cadastro</span>
       </div>
 
-      <!-- TODO (PHP): troque a action pelo nome do seu script, ex.: "cadastrar-livro.php" -->
-      <form method="POST" action="cadastrar-livro.php">
+      <form method="POST" action="livros.php">
         <div class="campo">
           <label for="livro-titulo">Título <span class="obrigatorio">*</span></label>
           <input type="text" id="livro-titulo" name="titulo" required />
@@ -57,20 +73,27 @@ session_start();
         <div class="linha-campos">
           <div class="campo">
             <label for="livro-autor">Autor <span class="obrigatorio">*</span></label>
-            <select id="livro-autor" name="autor_id" required>
+            <select id="livro-autor" name="autor" required>
               <option value="" selected disabled>Selecionar</option>
-              <!-- TODO (PHP): gerar as <option> aqui com um loop lendo os autores do .json -->
+              <?php foreach ($autores as $autor): ?>
+                <option value="<?= htmlspecialchars($autor['nome']) ?>">
+                  <?= htmlspecialchars($autor['nome']) ?>
+                </option>
+              <?php endforeach; ?>
             </select>
           </div>
 
           <div class="campo">
             <label for="livro-categoria">Categoria <span class="obrigatorio">*</span></label>
-            <select id="livro-categoria" name="categoria_id" required>
-              <option value="" selected disabled>Selecionar</option>
-              <option value="1">Romance</option>
-              <option value="2">Conto</option>
-              <option value="3">Ficção científica</option>
-            </select>
+           <select id="livro-categoria" name="categoria" required>
+               <option value="" selected disabled>Selecionar</option>
+
+           <?php foreach ($categorias as $categoria): ?>
+               <option value="<?= htmlspecialchars($categoria['nome']) ?>">
+                   <?= htmlspecialchars($categoria['nome']) ?>
+               </option>
+           <?php endforeach; ?>
+           </select>
           </div>
         </div>
 
@@ -102,16 +125,24 @@ session_start();
 
     <div class="tabela-wrapper">
       <table>
-        <!-- TODO (PHP): fazer um loop nos livros do .json e gerar uma <tr> por livro dentro do <tbody> -->
         <thead>
           <tr>
             <th scope="col">Título</th>
             <th scope="col">Autor</th>
             <th scope="col">Categoria</th>
-            <th scope="col">Ações</th>
+            <th scope="col">ISBN</th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+          <?php foreach ($livros as $livro): ?>
+            <tr>
+              <td><?= htmlspecialchars($livro['titulo']) ?></td>
+              <td><?= htmlspecialchars($livro['autor']) ?></td>
+              <td><?= htmlspecialchars($livro['categoria']) ?></td>
+              <td><?= htmlspecialchars($livro['isbn']) ?></td>
+            </tr>
+          <?php endforeach; ?>
+        </tbody>
       </table>
     </div>
   </main>
