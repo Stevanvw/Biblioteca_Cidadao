@@ -101,9 +101,10 @@ session_start();
                 <td><?= htmlspecialchars($usuario["nome"]) ?></td>
                 <td><?= htmlspecialchars($usuario["email"]) ?></td>
                 <td>
-                    <button type="button" class="botao botao--secundario">
-                        Editar
-                    </button>
+                    <a href = " editar-usuario.php?id=<? = $usuario["id"]"?> " class = "botao botao--secundario">
+                      Editar
+
+                    </a>
                 </td>
             </tr>
         <?php endforeach; ?>
