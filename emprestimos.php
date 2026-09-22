@@ -1,10 +1,33 @@
 <?php
 session_start();
-
-    if (!isset($_SESSION["logado"]) || $_SESSION["logado"] != "true") {
+if (!isset($_SESSION["logado"]) || $_SESSION["logado"] != true) {
     header("Location: login.html");
     exit;
 }
+
+function buscarPorId($lista, $id) {
+    foreach ($lista as $item) {
+        if ((string) $item["id"] === (string) $id) {
+            return $item;
+        }
+    }
+    return null;
+}
+
+$arquivoUsuarios = "usuarios.cad.json";
+$usuarios = file_exists($arquivoUsuarios)
+    ? json_decode(file_get_contents($arquivoUsuarios), true)
+    : [];
+
+$arquivoLivros = "livros.cad.json";
+$livros = file_exists($arquivoLivros)
+    ? json_decode(file_get_contents($arquivoLivros), true)
+    : [];
+
+$arquivoEmprestimos = "emprestimos.cad.json";
+$emprestimos = file_exists($arquivoEmprestimos)
+    ? json_decode(file_get_contents($arquivoEmprestimos), true)
+    : [];
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -32,7 +55,7 @@ session_start();
         <li><a href="livros.php">Livros</a></li>
         <li><a href="usuarios.php">Usuários</a></li>
         <li><a href="emprestimos.php" aria-current="page">Empréstimos</a></li>
-        <li><a href="login.html">Encerrar sessão</a></li>
+        <li><a href="logout.php">Encerrar sessão</a></li>
       </ul>
     </nav>
   </header>
@@ -45,14 +68,17 @@ session_start();
         <div><strong>Ficha de empréstimo</strong></div>
       </div>
 
-      <!-- TODO (PHP): troque a action pelo nome do seu script, ex.: "registrar-emprestimo.php" -->
       <form method="POST" action="registrar-emprestimo.php">
         <div class="linha-campos">
           <div class="campo">
             <label for="emprestimo-usuario">Usuário <span class="obrigatorio">*</span></label>
             <select id="emprestimo-usuario" name="usuario_id" required>
               <option value="" selected disabled>Selecionar</option>
-              <!-- TODO (PHP): gerar as <option> aqui com um loop lendo os usuários do .json -->
+              <?php foreach ($usuarios as $usuario): ?>
+                <option value="<?= htmlspecialchars($usuario["id"]) ?>">
+                  <?= htmlspecialchars($usuario["nome"]) ?>
+                </option>
+              <?php endforeach; ?>
             </select>
           </div>
 
@@ -60,7 +86,11 @@ session_start();
             <label for="emprestimo-livro">Livro <span class="obrigatorio">*</span></label>
             <select id="emprestimo-livro" name="livro_id" required>
               <option value="" selected disabled>Selecionar</option>
-              <!-- TODO (PHP): gerar as <option> aqui com um loop lendo os livros do .json -->
+              <?php foreach ($livros as $livro): ?>
+                <option value="<?= htmlspecialchars($livro["id"]) ?>">
+                  <?= htmlspecialchars($livro["titulo"]) ?>
+                </option>
+              <?php endforeach; ?>
             </select>
           </div>
         </div>
@@ -86,7 +116,6 @@ session_start();
 
     <div class="tabela-wrapper">
       <table>
-        <!-- TODO (PHP): fazer um loop nos empréstimos do .json e gerar uma <tr> por registro dentro do <tbody> -->
         <thead>
           <tr>
             <th scope="col">Usuário</th>
@@ -95,7 +124,26 @@ session_start();
             <th scope="col">Devolução</th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+          <?php if (empty($emprestimos)): ?>
+            <tr>
+              <td colspan="4">Nenhum empréstimo registrado.</td>
+            </tr>
+          <?php else: ?>
+            <?php foreach ($emprestimos as $emprestimo): ?>
+              <?php
+                $usuario = buscarPorId($usuarios, $emprestimo["usuario_id"]);
+                $livro = buscarPorId($livros, $emprestimo["livro_id"]);
+              ?>
+              <tr>
+                <td><?= htmlspecialchars($usuario["nome"] ?? "Usuário não encontrado") ?></td>
+                <td><?= htmlspecialchars($livro["titulo"] ?? "Livro não encontrado") ?></td>
+                <td><?= htmlspecialchars($emprestimo["data_emprestimo"]) ?></td>
+                <td><?= htmlspecialchars($emprestimo["data_devolucao"]) ?></td>
+              </tr>
+            <?php endforeach; ?>
+          <?php endif; ?>
+        </tbody>
       </table>
     </div>
   </main>
