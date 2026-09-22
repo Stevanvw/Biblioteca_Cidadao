@@ -5,6 +5,14 @@ session_start();
     header ("Location: login.html");
     exit;
   }
+  
+  $arquivoUsuarios = "usuarios.cad.json";
+  if(file_exists($arquivoUsuarios)){
+    $dados = file_get_contents($arquivoUsuarios);
+    $usuarios = json_decode($dados, true);
+  }else {
+    $usuarios = [];
+  }
 ?>
 
 <!DOCTYPE html>
@@ -82,7 +90,25 @@ session_start();
             <th scope="col">Ações</th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+    <?php if (empty($usuarios)): ?>
+        <tr>
+            <td colspan="3">Nenhum usuário cadastrado.</td>
+        </tr>
+    <?php else: ?>
+        <?php foreach ($usuarios as $usuario): ?>
+            <tr>
+                <td><?= htmlspecialchars($usuario["nome"]) ?></td>
+                <td><?= htmlspecialchars($usuario["email"]) ?></td>
+                <td>
+                    <button type="button" class="botao botao--secundario">
+                        Editar
+                    </button>
+                </td>
+            </tr>
+        <?php endforeach; ?>
+    <?php endif; ?>
+</tbody>
       </table>
     </div>
   </main>
