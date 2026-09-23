@@ -1,5 +1,6 @@
 <?php
 $id = $_GET["id"] ?? null;
+$erro = $_GET["erro"] ?? "";
 
 if ($id === null) {
     header("Location: usuarios.php");
@@ -33,51 +34,150 @@ if ($usuarioEncontrado === null) {
 <html lang="pt-BR">
 
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Editar usuário</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Editar usuário · Sistema de Biblioteca</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=PT+Serif:wght@400;700&display=swap" rel="stylesheet" />
+
+    <link rel="stylesheet" href="style.css" />
 </head>
 
 <body>
 
-    <h1>Editar usuário</h1>
+    <header class="site-header">
+        <div class="site-header__identity">
+            <a href="index.php">
+                <span class="site-brand">Biblioteca Cidadão<span></span></span>
+                <p class="site-tagline">Sistema interno de gestão da biblioteca</p>
+            </a>
 
-    <form action="atualizar-usuario.php" method="POST">
+            <button class="nav-toggle" aria-expanded="false" aria-controls="menu-principal">
+                Menu
+            </button>
+        </div>
 
-        <input
-            type="hidden"
-            name="id"
-            value="<?= htmlspecialchars($usuarioEncontrado["id"]) ?>">
+        <nav class="drawer-nav" id="menu-principal" aria-label="Navegação principal">
+            <ul>
+                <li><a href="index.php">Início</a></li>
+                <li><a href="livros.php">Livros</a></li>
+                <li><a href="usuarios.php" aria-current="page">Usuários</a></li>
+                <li><a href="emprestimos.php">Empréstimos</a></li>
+                <li><a href="login.html">Encerrar sessão</a></li>
+            </ul>
+        </nav>
+    </header>
 
-        <label for="nome">Nome:</label>
-        <input
-            type="text"
-            id="nome"
-            name="nome"
-            value="<?= htmlspecialchars($usuarioEncontrado["nome"]) ?>"
-            required>
+    <main class="page-main">
 
-        <label for="email">E-mail:</label>
-        <input
-            type="email"
-            id="email"
-            name="email"
-            value="<?= htmlspecialchars($usuarioEncontrado["email"]) ?>"
-            required>
+        <?php if ($erro === "email"): ?>
+            <div class="modal-erro" role="alert">
+                <div class="modal-erro__conteudo">
 
-        <label for="senha">Nova senha:</label>
-        <input
-            type="password"
-            id="senha"
-            name="senha">
+                    <button
+                        type="button"
+                        class="modal-erro__fechar"
+                        onclick="this.closest('.modal-erro').remove()">
+                        ×
+                    </button>
 
-        <p>Deixe a senha em branco para manter a senha atual.</p>
+                    <h2>Erro na atualização!</h2>
+                    <p>Este e-mail já está cadastrado!</p>
 
-        <button type="submit">Salvar alterações</button>
+                </div>
+            </div>
+        <?php endif; ?>
 
-    </form>
+        <h1 class="page-title">Editar usuário</h1>
 
-    <a href="usuarios.php">Voltar</a>
+
+        <div class="ficha">
+
+            <div class="ficha__cabecalho">
+                <div>
+                    <strong>Informações do usuário</strong>
+                </div>
+
+                <span class="ficha__codigo">
+                    edição
+                </span>
+            </div>
+
+            <form method="POST" action="atualizar-usuario.php">
+
+                <input
+                    type="hidden"
+                    name="id"
+                    value="<?= htmlspecialchars($usuarioEncontrado["id"]) ?>" />
+
+                <div class="campo">
+                    <label for="usuario-nome">
+                        Nome <span class="obrigatorio">*</span>
+                    </label>
+
+                    <input
+                        type="text"
+                        id="usuario-nome"
+                        name="nome"
+                        value="<?= htmlspecialchars($usuarioEncontrado["nome"]) ?>"
+                        required />
+                </div>
+
+                <div class="campo">
+                    <label for="usuario-email">
+                        E-mail <span class="obrigatorio">*</span>
+                    </label>
+
+                    <input
+                        type="email"
+                        id="usuario-email"
+                        name="email"
+                        value="<?= htmlspecialchars($usuarioEncontrado["email"]) ?>"
+                        required />
+                </div>
+
+                <div class="campo">
+                    <label for="usuario-senha">
+                        Nova senha
+                    </label>
+
+                    <input
+                        type="password"
+                        id="usuario-senha"
+                        name="senha"
+                        autocomplete="new-password" />
+
+                    <small>Deixe em branco para manter a senha atual.</small>
+                </div>
+
+                <div class="acoes-ficha">
+
+                    <button
+                        type="submit"
+                        class="botao botao--primario">
+                        Salvar alterações
+                    </button>
+
+                    <a
+                        href="usuarios.php"
+                        class="botao botao--secundario">
+                        Cancelar
+                    </a>
+
+                </div>
+
+            </form>
+
+        </div>
+
+    </main>
+
+    <footer class="site-footer">
+        Projeto acadêmico UTFPR, Web servidor — Autores: Luis Stevan, Rayane Alves e Gleice Emilly.
+    </footer>
+
+    <script src="script.js"></script>
 
 </body>
 

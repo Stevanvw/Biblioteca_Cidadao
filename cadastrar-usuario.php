@@ -47,9 +47,7 @@ if (file_exists($arquivoUsuarios)) {
 
 foreach ($usuarios as $usuario) {
     if (strtolower($usuario["email"]) === strtolower($email)) {
-        echo "<h2>Erro no cadastro</h2>";
-        echo "<p>Este e-mail já está cadastrado.</p>";
-        echo '<a href="usuarios.php">Voltar</a>';
+        header("Location: usuarios.php?erro=email");
         exit;
     }
 }
@@ -70,5 +68,5 @@ file_put_contents(
     json_encode($usuarios, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
 );
 
-header("Location: usuarios.php");
+header("Location: usuarios.php?sucesso=cadastro");
 exit;
