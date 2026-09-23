@@ -1,9 +1,6 @@
 <?php
 
-/**
- * Model responsável por ler as categorias do arquivo JSON.
- * Somente leitura — o cadastro de categorias é feito em outro lugar.
- */
+//Somente leitura
 class Categoria
 {
     private string $arquivoJson;
@@ -13,11 +10,6 @@ class Categoria
         $this->arquivoJson = $arquivoJson;
     }
 
-    /**
-     * Lê todas as categorias do arquivo JSON.
-     * Espera o formato: {"categorias": [{"id": 1, "nome": "..."}]}
-     * Retorna um array vazio se o arquivo não existir ainda.
-     */
     public function listarTodas(): array
     {
         if (!file_exists($this->arquivoJson)) {
