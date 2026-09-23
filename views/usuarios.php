@@ -1,25 +1,15 @@
 <?php
-session_start();
 
-if (!isset($_SESSION["logado"]) || $_SESSION["logado"] != true) {
-  header("Location: login.html");
-  exit;
-}
+require_once __DIR__ . '/../controllers/usuarioController.php';
 
+$controller = new UsuarioController();
+$resultado = $controller->processar();
 
-$sucesso =  $_GET["sucesso"] ?? "";
-$erro = $_GET["erro"] ?? "";
+$usuarios = $resultado['usuarios'];
+$erros = $resultado['erros'];
 
-$arquivoUsuarios = "usuarios.cad.json";
-
-if (file_exists($arquivoUsuarios)) {
-  $dados = file_get_contents($arquivoUsuarios);
-  $usuarios = json_decode($dados, true);
-} else {
-  $usuarios = [];
-}
+$sucesso = $_GET['sucesso'] ?? '';
 ?>
-
 <!DOCTYPE html>
 <html lang="pt-BR">
 
@@ -55,7 +45,7 @@ if (file_exists($arquivoUsuarios)) {
 
   <main class="page-main">
 
-    <?php if ($sucesso === "cadastro"): ?>
+    <?php if ($sucesso === "1"): ?>
       <div class="modal-sucesso" role="alert">
         <div class="modal-sucesso__conteudo">
 
@@ -72,8 +62,7 @@ if (file_exists($arquivoUsuarios)) {
         </div>
       </div>
     <?php endif; ?>
-
-    <?php if ($erro === "email"): ?>
+    <?php if (!empty($erros)): ?>
       <div class="modal-erro" role="alert">
         <div class="modal-erro__conteudo">
 
@@ -85,11 +74,15 @@ if (file_exists($arquivoUsuarios)) {
           </button>
 
           <h2>Erro no cadastro!</h2>
-          <p>Este e-mail já está cadastrado!</p>
+
+          <?php foreach ($erros as $erro): ?>
+            <p><?= htmlspecialchars($erro) ?></p>
+          <?php endforeach; ?>
 
         </div>
       </div>
     <?php endif; ?>
+
     <h1 class="page-title">Cadastro de usuários</h1>
 
     <div class="ficha">
@@ -98,8 +91,7 @@ if (file_exists($arquivoUsuarios)) {
         <span class="ficha__codigo">novo cadastro</span>
       </div>
 
-      <!-- TODO (PHP): troque a action pelo nome do seu script, ex.: "cadastrar-usuario.php" -->
-      <form method="POST" action="cadastrar-usuario.php">
+      <form method="POST" action="usuarios.php">
         <div class="campo">
           <label for="usuario-nome">Nome <span class="obrigatorio">*</span></label>
           <input type="text" id="usuario-nome" name="nome" required />
@@ -124,29 +116,23 @@ if (file_exists($arquivoUsuarios)) {
 
     <div class="tabela-wrapper">
       <table>
-        <!-- TODO (PHP): fazer um loop nos usuários do .json e gerar uma <tr> por usuário dentro do <tbody> -->
         <thead>
           <tr>
             <th scope="col">Nome</th>
             <th scope="col">E-mail</th>
-            <th scope="col">Ações</th>
+
           </tr>
         </thead>
         <tbody>
           <?php if (empty($usuarios)): ?>
             <tr>
-              <td colspan="3">Nenhum usuário cadastrado.</td>
+              <td colspan="2">Nenhum usuário cadastrado.</td>
             </tr>
           <?php else: ?>
             <?php foreach ($usuarios as $usuario): ?>
               <tr>
-                <td><?= htmlspecialchars($usuario["nome"]) ?></td>
-                <td><?= htmlspecialchars($usuario["email"]) ?></td>
-                <td>
-                  <a href="editar-usuario.php?id=<?= $usuario["id"] ?>" class="botao botao--secundario">
-                    Editar
-                  </a>
-                </td>
+                <td><?= htmlspecialchars($usuario['nome']) ?></td>
+                <td><?= htmlspecialchars($usuario['email']) ?></td>
               </tr>
             <?php endforeach; ?>
           <?php endif; ?>
