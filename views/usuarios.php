@@ -1,14 +1,28 @@
-<?php 
+<?php
 session_start();
 
-    if (!isset($_SESSION["logado"]) || $_SESSION["logado"] != true) {
-    header ("Location: login.html");
-    exit;
-  }
+if (!isset($_SESSION["logado"]) || $_SESSION["logado"] != true) {
+  header("Location: login.html");
+  exit;
+}
+
+
+$sucesso =  $_GET["sucesso"] ?? "";
+$erro = $_GET["erro"] ?? "";
+
+$arquivoUsuarios = "usuarios.cad.json";
+
+if (file_exists($arquivoUsuarios)) {
+  $dados = file_get_contents($arquivoUsuarios);
+  $usuarios = json_decode($dados, true);
+} else {
+  $usuarios = [];
+}
 ?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -40,6 +54,42 @@ session_start();
   </header>
 
   <main class="page-main">
+
+    <?php if ($sucesso === "cadastro"): ?>
+      <div class="modal-sucesso" role="alert">
+        <div class="modal-sucesso__conteudo">
+
+          <button
+            type="button"
+            class="modal-sucesso__fechar"
+            onclick="this.closest('.modal-sucesso').remove()">
+            ×
+          </button>
+
+          <h2>Cadastro realizado!</h2>
+          <p>Usuário cadastrado com sucesso.</p>
+
+        </div>
+      </div>
+    <?php endif; ?>
+
+    <?php if ($erro === "email"): ?>
+      <div class="modal-erro" role="alert">
+        <div class="modal-erro__conteudo">
+
+          <button
+            type="button"
+            class="modal-erro__fechar"
+            onclick="this.closest('.modal-erro').remove()">
+            ×
+          </button>
+
+          <h2>Erro no cadastro!</h2>
+          <p>Este e-mail já está cadastrado!</p>
+
+        </div>
+      </div>
+    <?php endif; ?>
     <h1 class="page-title">Cadastro de usuários</h1>
 
     <div class="ficha">
@@ -82,7 +132,25 @@ session_start();
             <th scope="col">Ações</th>
           </tr>
         </thead>
-        <tbody></tbody>
+        <tbody>
+          <?php if (empty($usuarios)): ?>
+            <tr>
+              <td colspan="3">Nenhum usuário cadastrado.</td>
+            </tr>
+          <?php else: ?>
+            <?php foreach ($usuarios as $usuario): ?>
+              <tr>
+                <td><?= htmlspecialchars($usuario["nome"]) ?></td>
+                <td><?= htmlspecialchars($usuario["email"]) ?></td>
+                <td>
+                  <a href="editar-usuario.php?id=<?= $usuario["id"] ?>" class="botao botao--secundario">
+                    Editar
+                  </a>
+                </td>
+              </tr>
+            <?php endforeach; ?>
+          <?php endif; ?>
+        </tbody>
       </table>
     </div>
   </main>
@@ -93,4 +161,5 @@ session_start();
 
   <script src="script.js"></script>
 </body>
+
 </html>

@@ -551,3 +551,104 @@ tbody tr:last-child td {
     max-width: none;
   }
 }
+
+/*Layout da telinha de erro*/
+.modal-erro {
+  position: fixed;
+  inset: 0;
+  background: rgba(27, 47, 38, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1.25rem;
+}
+
+.modal-erro__conteudo {
+  position: relative;
+  width: min(420px, 100%);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-top: 4px solid var(--color-danger);
+  border-radius: var(--radius);
+  padding: 2rem;
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+
+.modal-erro__conteudo h2 {
+  color: var(--color-danger);
+  font-size: 1.25rem;
+  margin-bottom: 0.6rem;
+}
+
+.modal-erro__conteudo p {
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.modal-erro__fechar {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.7rem;
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.modal-erro__fechar:hover {
+  color: var(--color-danger);
+}
+
+.modal-sucesso {
+  position: fixed;
+  inset: 0;
+  background: rgba(27, 47, 38, 0.55);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 1000;
+  padding: 1.25rem;
+}
+
+.modal-sucesso__conteudo {
+  position: relative;
+  width: min(420px, 100%);
+  background: var(--color-surface);
+  border: 1px solid var(--color-border);
+  border-top: 4px solid var(--color-primary);
+  border-radius: var(--radius);
+  padding: 2rem;
+  box-shadow: var(--shadow-card);
+  text-align: center;
+}
+
+.modal-sucesso__conteudo h2 {
+  color: var(--color-primary);
+  font-size: 1.25rem;
+  margin-bottom: 0.6rem;
+}
+
+.modal-sucesso__conteudo p {
+  color: var(--color-text-muted);
+  margin: 0;
+}
+
+.modal-sucesso__fechar {
+  position: absolute;
+  top: 0.5rem;
+  right: 0.7rem;
+  border: none;
+  background: transparent;
+  color: var(--color-text-muted);
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.modal-sucesso__fechar:hover {
+  color: var(--color-primary);
+}
