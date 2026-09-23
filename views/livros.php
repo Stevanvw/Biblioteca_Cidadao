@@ -45,17 +45,15 @@ $erros = $resultado['erros'];
     <h1 class="page-title">Cadastro de livros</h1>
 
     <?php if (!empty($erros)): ?>
-      <div class="mensagem mensagem--erro">
-        <ul>
-          <?php foreach ($erros as $erro): ?>
-            <li><?= htmlspecialchars($erro) ?></li>
-          <?php endforeach; ?>
-        </ul>
-      </div>
+      <script>
+        alert(<?= json_encode(implode("\n", $erros)) ?>);
+      </script>
     <?php endif; ?>
 
     <?php if (isset($_GET['sucesso'])): ?>
-      <div class="mensagem mensagem--sucesso">Livro cadastrado com sucesso!</div>
+      <script>
+        alert('Livro cadastrado com sucesso!');
+      </script>
     <?php endif; ?>
 
     <div class="ficha">
@@ -65,16 +63,18 @@ $erros = $resultado['erros'];
       </div>
 
       <form method="POST" action="livros.php">
+
         <div class="campo">
           <label for="livro-titulo">Título <span class="obrigatorio">*</span></label>
-          <input type="text" id="livro-titulo" name="titulo" required />
+          <input type="text" id="livro-titulo" name="titulo" />
         </div>
 
         <div class="linha-campos">
           <div class="campo">
             <label for="livro-autor">Autor <span class="obrigatorio">*</span></label>
-            <select id="livro-autor" name="autor" required>
+            <select id="livro-autor" name="autor">
               <option value="" selected disabled>Selecionar</option>
+
               <?php foreach ($autores as $autor): ?>
                 <option value="<?= htmlspecialchars($autor['nome']) ?>">
                   <?= htmlspecialchars($autor['nome']) ?>
@@ -85,34 +85,36 @@ $erros = $resultado['erros'];
 
           <div class="campo">
             <label for="livro-categoria">Categoria <span class="obrigatorio">*</span></label>
-           <select id="livro-categoria" name="categoria" required>
-               <option value="" selected disabled>Selecionar</option>
+            <select id="livro-categoria" name="categoria">
+              <option value="" selected disabled>Selecionar</option>
 
-           <?php foreach ($categorias as $categoria): ?>
-               <option value="<?= htmlspecialchars($categoria['nome']) ?>">
-                   <?= htmlspecialchars($categoria['nome']) ?>
-               </option>
-           <?php endforeach; ?>
-           </select>
+              <?php foreach ($categorias as $categoria): ?>
+                <option value="<?= htmlspecialchars($categoria['nome']) ?>">
+                  <?= htmlspecialchars($categoria['nome']) ?>
+                </option>
+              <?php endforeach; ?>
+            </select>
           </div>
         </div>
 
         <div class="linha-campos">
           <div class="campo">
             <label for="livro-editora">Editora <span class="obrigatorio">*</span></label>
-            <input type="text" id="livro-editora" name="editora" required placeholder="Ex.: Companhia das Letras" />
+            <input
+              type="text"
+              id="livro-editora"
+              name="editora"
+              placeholder="Ex.: Companhia das Letras"
+            />
           </div>
 
           <div class="campo">
             <label for="livro-isbn">ISBN <span class="obrigatorio">*</span></label>
             <input
-               type="text"
-               id="livro-isbn"
-               name="isbn"
-               required
-               pattern="[0-9]{13}"
-               maxlength="13"
-               placeholder="9781234567890"
+              type="text"
+              id="livro-isbn"
+              name="isbn"
+              placeholder="9781234567890"
             />
           </div>
         </div>
@@ -121,7 +123,9 @@ $erros = $resultado['erros'];
           <button type="submit" class="botao botao--primario">Cadastrar</button>
           <button type="reset" class="botao botao--secundario">Limpar</button>
         </div>
+
       </form>
+
     </div>
 
     <div class="tabela-wrapper">
