@@ -1,10 +1,10 @@
 <?php
 session_start();
-    if (!isset($_SESSION["logado"]) || $_SESSION["logado"] != "true") {
-    header("Location: login.html");
-    exit;
-}
-?>
+    //if (!isset($_SESSION["logado"]) || $_SESSION["logado"] != "true") {
+    //header("Location: login.html");
+   // exit;
+//}                                          //GAMBIARRA PRA ACESSAR SEM A TELA DE LOGIN
+?>                                          //REMOVA ISSO DPS!!!!!!!!!!
 
 <!DOCTYPE html>
 <html lang="pt-BR">

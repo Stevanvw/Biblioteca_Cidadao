@@ -92,7 +92,16 @@ class LivroController
             $dados[$campo] = $valor;
         }
 
-        
+        // Validação do tamanho do título
+        if ($dados['titulo'] !== '' && strlen($dados['titulo']) > 150) {
+           $this->erros[] = 'O título não pode ter mais de 150 caracteres.';
+        }
+
+        // Validação do tamanho da editora
+        if ($dados['editora'] !== '' && strlen($dados['editora']) > 50) {
+           $this->erros[] = 'O nome da editora não pode ter mais de 50 caracteres.';
+        }
+
         // Validação do autor
         if ($dados['autor'] !== '') {
            $autores = $this->autorModel->listarTodos();
@@ -111,7 +120,7 @@ class LivroController
         }
     }
 
-// Validação da categoria
+        // Validação da categoria
         if ($dados['categoria'] !== '') {
           $categorias = $this->categoriaModel->listarTodas();
 
