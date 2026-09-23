@@ -10,7 +10,7 @@ session_start();
     $usuario = $_POST["email"] ?? null;
     $senha = $_POST["senha"] ?? null;
 
-    $dados = file_get_contents("usuario.json");
+    $dados = file_get_contents("data/usuario.json");
     $credenciais = json_decode($dados, true);
 
     if ($usuario == $credenciais["login"] && $senha == $credenciais["senha"]) {
