@@ -7,6 +7,11 @@ session_start();
         exit;
     }
 
+    if ($_SERVER["REQUEST_METHOD"] !== "POST"){
+        header("Location: login.html");
+        exit;
+    }
+
     $usuario = $_POST["email"] ?? null;
     $senha = $_POST["senha"] ?? null;
 
