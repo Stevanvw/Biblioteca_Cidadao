@@ -32,10 +32,10 @@ $erros = $resultado['erros'];
     </div>
     <nav class="drawer-nav" id="menu-principal" aria-label="Navegação principal">
       <ul>
-        <li><a href="index.html">Início</a></li>
+        <li><a href="index.php">Início</a></li>
         <li><a href="livros.php" aria-current="page">Livros</a></li>
-        <li><a href="usuarios.html">Usuários</a></li>
-        <li><a href="emprestimos.html">Empréstimos</a></li>
+        <li><a href="usuarios.php">Usuários</a></li>
+        <li><a href="emprestimos.php">Empréstimos</a></li>
         <li><a href="login.html">Encerrar sessão</a></li>
       </ul>
     </nav>
