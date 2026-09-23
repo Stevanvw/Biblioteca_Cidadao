@@ -1,28 +1,12 @@
 {
     "livros": [
         {
-            "titulo": "Branca de neve",
-            "autor": "J.R.R. Tolkien",
-            "categoria": "Conto",
-            "editora": "Fala fiote",
-            "isbn": "3333333333333",
-            "id": 1
-        },
-        {
-            "titulo": "Laços de familia",
-            "autor": "Clarice Lispector",
+            "titulo": "teste1",
+            "autor": "Isaac Asimov",
             "categoria": "Biografia",
-            "editora": "Francisco Alves",
-            "isbn": "1111111111111",
-            "id": 2
-        },
-        {
-            "titulo": "teste",
-            "autor": "Robert C. Martin",
-            "categoria": "Ficção científica",
-            "editora": "teste1",
+            "editora": "base de dados funcionando",
             "isbn": "4444444444444",
-            "id": 3
+            "id": 1
         }
     ]
 }
