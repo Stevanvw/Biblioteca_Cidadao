@@ -4,13 +4,8 @@ require_once __DIR__ . '/../models/livro.php';
 require_once __DIR__ . '/../models/autor.php';
 require_once __DIR__ . '/../models/categoria.php';
 
-/**
- * Controller responsável por receber os dados vindos da view livros.php,
- * validar, e decidir o que fazer usando o Model Livro.
- */
+class LivroController {
 
-class LivroController
-{
     private Livro $livroModel;
     private Autor $autorModel;
     private Categoria $categoriaModel;
@@ -23,18 +18,14 @@ class LivroController
         $this->categoriaModel = new Categoria();
     }
 
-    /**
-     * Ponto de entrada: decide o que fazer com base no método da requisição.
-     * Chame esse método a partir de livros.php.
-     */
     public function processar(): array
     {
         if ($_SERVER['REQUEST_METHOD'] === 'POST') {
             $this->salvarLivro();
         }
 
-        // Sempre retorna a lista atualizada + autores + categorias + eventuais erros,
-        // pra view exibir
+        // Sempre retorna a lista atualizada + autores + categorias + eventuais erros, pra view
+
         return [
             'livros' => $this->livroModel->listarTodos(),
             'autores' => $this->autorModel->listarTodos(),
@@ -43,9 +34,7 @@ class LivroController
         ];
     }
 
-    /**
-     * Valida e salva um novo livro vindo do formulário.
-     */
+    //Valida e salva um novo livro vindo do formulário.
     private function salvarLivro(): void
     {
         $dados = $this->validarDados($_POST);
@@ -56,28 +45,24 @@ class LivroController
 
         // Evita ISBN duplicado
         if ($this->livroModel->buscarPorIsbn($dados['isbn']) !== null) {
-            $this->erros[] = 'Já existe um livro cadastrado com esse ISBN.';
+            $this->erros[] = 'Erro: Já existe um livro cadastrado com esse ISBN.';
             return;
         }
 
         $salvou = $this->livroModel->salvar($dados);
 
         if ($salvou) {
-            // PRG: redireciona pra evitar reenvio do form ao dar F5
+            //redireciona pra evitar reenvio do form ao dar F5
             header('Location: livros.php?sucesso=1');
             exit;
         }
 
-        $this->erros[] = 'Não foi possível salvar o livro. Tente novamente.';
     }
 
-    /**
-    * Valida os campos recebidos do formulário.
-    * Retorna os dados após a validação e aplicação do trim.
-     */
+    //Valida os campos recebidos do formulário.
 
-    private function validarDados(array $post): array
-    {
+    private function validarDados(array $post): array {
+
         $campos = ['titulo', 'autor', 'categoria', 'editora', 'isbn'];
         $dados = [];
 
@@ -85,7 +70,7 @@ class LivroController
             $valor = trim($post[$campo] ?? '');
 
             if ($valor === '') {
-                $this->erros[] = "O campo '$campo' é obrigatório.";
+                $this->erros[] = "ERRO: O campo '$campo' é obrigatório.";
             }
 
         
@@ -94,12 +79,12 @@ class LivroController
 
         // Validação do tamanho do título
         if ($dados['titulo'] !== '' && strlen($dados['titulo']) > 150) {
-           $this->erros[] = 'O título não pode ter mais de 150 caracteres.';
+           $this->erros[] = 'ERRO: O título não pode ter mais de 150 caracteres.';
         }
 
         // Validação do tamanho da editora
         if ($dados['editora'] !== '' && strlen($dados['editora']) > 50) {
-           $this->erros[] = 'O nome da editora não pode ter mais de 50 caracteres.';
+           $this->erros[] = 'ERRO: O nome da editora não pode ter mais de 50 caracteres.';
         }
 
         // Validação do autor
@@ -116,7 +101,7 @@ class LivroController
           }
 
         if (!$autorExiste) {
-          $this->erros[] = 'O autor selecionado é inválido.';
+          $this->erros[] = 'ERRO: O autor selecionado é inválido.';
         }
     }
 
@@ -134,7 +119,7 @@ class LivroController
         }
 
         if (!$categoriaExiste) {
-                $this->erros[] = 'A categoria selecionada é inválida.';
+                $this->erros[] = 'ERRO: A categoria selecionada é inválida.';
         }
 }
 
@@ -142,9 +127,9 @@ class LivroController
         if ($dados['isbn'] !== '') {
 
           if (!ctype_digit($dados['isbn'])) {
-                  $this->erros[] = 'O ISBN deve conter somente números.';
+                  $this->erros[] = 'ERRO: O ISBN deve conter somente números.';
           } elseif (strlen($dados['isbn']) !== 13) {
-                  $this->erros[] = 'O ISBN deve conter exatamente 13 dígitos.';
+                  $this->erros[] = 'ERRO: O ISBN deve conter 13 dígitos.';
           }
         }
 
