@@ -1,5 +1,12 @@
 <?php
 
+session_start();
+
+if (!isset($_SESSION["logado"]) || $_SESSION["logado"] != true) {
+    header("Location: login.html");
+    exit;
+}
+
 if ($_SERVER["REQUEST_METHOD"] !== "POST") {
     header("Location: usuarios.php");
     exit;
