@@ -106,12 +106,13 @@ $erros = $resultado['erros'];
           <div class="campo">
             <label for="livro-isbn">ISBN <span class="obrigatorio">*</span></label>
             <input
-              type="text"
-              id="livro-isbn"
-              name="isbn"
-              required
-              pattern="[0-9\-]{10,17}"
-              placeholder="978-85-000-0000-0"
+               type="text"
+               id="livro-isbn"
+               name="isbn"
+               required
+               pattern="[0-9]{13}"
+               maxlength="13"
+               placeholder="9781234567890"
             />
           </div>
         </div>

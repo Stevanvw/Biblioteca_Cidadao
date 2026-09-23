@@ -72,9 +72,10 @@ class LivroController
     }
 
     /**
-     * Valida os campos recebidos do formulário.
-     * Retorna os dados já limpos (trim + htmlspecialchars).
+    * Valida os campos recebidos do formulário.
+    * Retorna os dados após a validação e aplicação do trim.
      */
+
     private function validarDados(array $post): array
     {
         $campos = ['titulo', 'autor', 'categoria', 'editora', 'isbn'];
@@ -87,21 +88,57 @@ class LivroController
                 $this->erros[] = "O campo '$campo' é obrigatório.";
             }
 
-            // Remove tags HTML/JS pra evitar XSS
-            $dados[$campo] = htmlspecialchars($valor, ENT_QUOTES, 'UTF-8');
+        
+            $dados[$campo] = $valor;
         }
 
-        // Validação específica de ISBN: só números e hífens, 10 a 17 caracteres
-        if ($dados['isbn'] !== '' && !preg_match('/^[0-9\-]{10,17}$/', $dados['isbn'])) {
-            $this->erros[] = 'ISBN inválido. Use apenas números e hífens.';
+        
+        // Validação do autor
+        if ($dados['autor'] !== '') {
+           $autores = $this->autorModel->listarTodos();
+
+           $autorExiste = false;
+
+          foreach ($autores as $autor) {
+            if ($autor['nome'] === $dados['autor']) {
+              $autorExiste = true;
+              break;
+            }
+          }
+
+        if (!$autorExiste) {
+          $this->erros[] = 'O autor selecionado é inválido.';
+        }
+    }
+
+// Validação da categoria
+        if ($dados['categoria'] !== '') {
+          $categorias = $this->categoriaModel->listarTodas();
+
+          $categoriaExiste = false;
+
+          foreach ($categorias as $categoria) {
+             if ($categoria['nome'] === $dados['categoria']) {
+               $categoriaExiste = true;
+               break;
+          }
+        }
+
+        if (!$categoriaExiste) {
+                $this->erros[] = 'A categoria selecionada é inválida.';
+        }
+}
+
+        // Validação específica de ISBN: só números e exatamente 13 caracteres.
+        if ($dados['isbn'] !== '') {
+
+          if (!ctype_digit($dados['isbn'])) {
+                  $this->erros[] = 'O ISBN deve conter somente números.';
+          } elseif (strlen($dados['isbn']) !== 13) {
+                  $this->erros[] = 'O ISBN deve conter exatamente 13 dígitos.';
+          }
         }
 
         return $dados;
     }
 }
-
-// Uso direto (se esse arquivo for chamado a partir de livros.php):
-// $controller = new LivroController();
-// $resultado = $controller->processar();
-// $livros = $resultado['livros'];
-// $erros = $resultado['erros'];
