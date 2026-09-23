@@ -1,8 +1,8 @@
 <?php
 
-require_once __DIR__ . '/../livro.php';
-require_once __DIR__ . '/../autor.php';
-require_once __DIR__ . '/../categoria.php';
+require_once __DIR__ . '/../models/livro.php';
+require_once __DIR__ . '/../models/autor.php';
+require_once __DIR__ . '/../models/categoria.php';
 
 /**
  * Controller responsável por receber os dados vindos da view livros.php,

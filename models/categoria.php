@@ -8,7 +8,7 @@ class Categoria
 {
     private string $arquivoJson;
 
-    public function __construct(string $arquivoJson = __DIR__ . '/data/categorias.json')
+    public function __construct(string $arquivoJson = __DIR__ . '/../data/categorias.json')
     {
         $this->arquivoJson = $arquivoJson;
     }

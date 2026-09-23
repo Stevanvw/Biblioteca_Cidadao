@@ -9,7 +9,7 @@ class Livro
 {
     private string $arquivoJson;
 
-    public function __construct(string $arquivoJson = __DIR__ . '/data/livros.json')
+    public function __construct(string $arquivoJson = __DIR__ . '/../data/livros.json')
     {
         $this->arquivoJson = $arquivoJson;
     }

@@ -8,7 +8,7 @@ class Autor
 {
     private string $arquivoJson;
 
-    public function __construct(string $arquivoJson = __DIR__ . '/data/autores.json')
+    public function __construct(string $arquivoJson = __DIR__ . '/../data/autores.json')
     {
         $this->arquivoJson = $arquivoJson;
     }
