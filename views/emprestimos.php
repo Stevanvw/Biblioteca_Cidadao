@@ -15,15 +15,22 @@ function buscarPorId($lista, $id) {
 }
 
 $arquivoUsuarios = __DIR__ . "/../data/usuarios.cad.json";
-$usuarios = file_exists($arquivoUsuarios)
-    ? json_decode(file_get_contents($arquivoUsuarios), true)
-    : [];
+if (file_exists($arquivoUsuarios)) {
+  $conteudoUsuarios = file_get_contents($arquivoUsuarios);
+    $usuarios = json_decode($conteudoUsuarios, true) ?? [];
+} else {
+    $usuarios = [];
+}
+
 
 $arquivoLivros = __DIR__ . "/../data/livros.json";
-$livros = file_exists($arquivoLivros)
-    ? json_decode(file_get_contents($arquivoLivros), true)
-    : [];
-$livros = $dadosLivros["livros"] ?? [];
+if (file_exists($arquivoLivros)) {
+  $conteudoLivros = json_decode(file_get_contents($arquivoLivros), true);
+  $livros = $conteudoLivros["livros"] ?? [];
+} else {
+  $livros = [];
+}
+  
 
 $arquivoEmprestimos = __DIR__ . "/../data/emprestimos.cad.json";
 $emprestimos = file_exists($arquivoEmprestimos)
