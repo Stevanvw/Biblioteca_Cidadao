@@ -6,11 +6,10 @@ if (!isset($_SESSION["logado"]) || $_SESSION["logado"] != true) {
   exit;
 }
 
-
 $sucesso =  $_GET["sucesso"] ?? "";
 $erro = $_GET["erro"] ?? "";
 
-$arquivoUsuarios = "usuarios.cad.json";
+$arquivoUsuarios = __DIR__ . "/../data/usuarios.cad.json";
 
 if (file_exists($arquivoUsuarios)) {
   $dados = file_get_contents($arquivoUsuarios);
@@ -129,7 +128,6 @@ if (file_exists($arquivoUsuarios)) {
           <tr>
             <th scope="col">Nome</th>
             <th scope="col">E-mail</th>
-            <th scope="col">Ações</th>
           </tr>
         </thead>
         <tbody>
@@ -142,11 +140,6 @@ if (file_exists($arquivoUsuarios)) {
               <tr>
                 <td><?= htmlspecialchars($usuario["nome"]) ?></td>
                 <td><?= htmlspecialchars($usuario["email"]) ?></td>
-                <td>
-                  <a href="editar-usuario.php?id=<?= $usuario["id"] ?>" class="botao botao--secundario">
-                    Editar
-                  </a>
-                </td>
               </tr>
             <?php endforeach; ?>
           <?php endif; ?>

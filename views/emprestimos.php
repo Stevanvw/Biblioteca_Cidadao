@@ -39,7 +39,9 @@ $emprestimos = file_exists($arquivoEmprestimos)
 $sucesso = $_GET["sucesso"] ?? "";
 $erroTipo = $_GET["erro"] ?? "";
 $mensagemErroUrl = $_GET["msg"] ?? "";
+
 ?>
+
 <!DOCTYPE html>
 <html lang="pt-BR">
 <head>

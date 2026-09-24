@@ -15,6 +15,22 @@
             "editora": "Teste",
             "isbn": "1236547890236",
             "id": 2
+        },
+        {
+            "titulo": "Funciona por favor",
+            "autor": "Isaac Asimov",
+            "categoria": "Conto",
+            "editora": "Aquela la",
+            "isbn": "1122222222222",
+            "id": 3
+        },
+        {
+            "titulo": "Teste2010",
+            "autor": "Machado de Assis",
+            "categoria": "Tecnologia",
+            "editora": "Outra la",
+            "isbn": "4444444444444",
+            "id": 4
         }
     ]
 }
