@@ -58,6 +58,10 @@ function mostrarErroLogin(){
   if (parametros.get("erro") === "1"){
     const mensagem = document.getElementById("mensagem-erro");
     if (mensagem) {
+      const texto = parametros.get("msg");
+        if (texto) {
+          mensagem.textContent = texto;
+        }
       mensagem.style.display = "block";
     }
    }

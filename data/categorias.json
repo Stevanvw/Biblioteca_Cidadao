@@ -1,0 +1,9 @@
+{
+  "categorias": [
+    { "id": 1, "nome": "Romance" },
+    { "id": 2, "nome": "Conto" },
+    { "id": 3, "nome": "Ficção científica" },
+    { "id": 4, "nome": "Tecnologia" },
+    { "id": 5, "nome": "Biografia" }
+  ]
+}

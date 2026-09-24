@@ -1,0 +1,12 @@
+{
+    "livros": [
+        {
+            "titulo": "teste1",
+            "autor": "Isaac Asimov",
+            "categoria": "Biografia",
+            "editora": "base de dados funcionando",
+            "isbn": "4444444444444",
+            "id": 1
+        }
+    ]
+}
