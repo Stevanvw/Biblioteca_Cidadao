@@ -47,7 +47,7 @@ if (file_exists($arquivoUsuarios)) {
         <li><a href="livros.php">Livros</a></li>
         <li><a href="usuarios.php" aria-current="page">Usuários</a></li>
         <li><a href="emprestimos.php">Empréstimos</a></li>
-        <li><a href="login.html">Encerrar sessão</a></li>
+        <li><a href="logout.php">Encerrar sessão</a></li>
       </ul>
     </nav>
   </header>

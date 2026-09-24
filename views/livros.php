@@ -43,7 +43,7 @@ $erros = $resultado['erros'];
         <li><a href="livros.php" aria-current="page">Livros</a></li>
         <li><a href="usuarios.php">Usuários</a></li>
         <li><a href="emprestimos.php">Empréstimos</a></li>
-        <li><a href="login.html">Encerrar sessão</a></li>
+        <li><a href="logout.php">Encerrar sessão</a></li>
       </ul>
     </nav>
   </header>
