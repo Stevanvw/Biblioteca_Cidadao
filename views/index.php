@@ -1,11 +1,10 @@
 <?php
 session_start();
-
-    if (!isset($_SESSION["logado"]) || $_SESSION["logado"] != "true") {
-    header("Location: login.html");
+    if (!isset($_SESSION["logado"]) || $_SESSION["logado"] != true) {
+    header("Location: login.php");
     exit;
-}                                        
-?>                                         
+}
+?>
 
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -34,7 +33,7 @@ session_start();
         <li><a href="livros.php">Livros</a></li>
         <li><a href="usuarios.php">Usuários</a></li>
         <li><a href="emprestimos.php">Empréstimos</a></li>
-        <li><a href="login.html">Encerrar sessão</a></li>
+        <li><a href="logout.php">Encerrar sessão</a></li>
       </ul>
     </nav>
   </header>

@@ -1,12 +1,20 @@
 {
     "livros": [
         {
-            "titulo": "teste1",
-            "autor": "Isaac Asimov",
-            "categoria": "Biografia",
-            "editora": "base de dados funcionando",
-            "isbn": "4444444444444",
+            "titulo": "Harry Potter",
+            "autor": "J.R.R. Tolkien",
+            "categoria": "Romance",
+            "editora": "Teste123",
+            "isbn": "1234567891023",
             "id": 1
+        },
+        {
+            "titulo": "Harry Potter 2",
+            "autor": "George Orwell",
+            "categoria": "Tecnologia",
+            "editora": "Teste",
+            "isbn": "1236547890236",
+            "id": 2
         }
     ]
 }

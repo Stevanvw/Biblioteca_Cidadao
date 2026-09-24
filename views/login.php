@@ -1,25 +1,76 @@
 <?php
 session_start();
 
-// se já estiver logado, ele já vai direto para o painel
-    if (isset($_SESSION["logado"]) && $_SESSION["logado"] == true) {
-        header("Location: index.php");
-        exit;
-    }
+if (isset($_SESSION["logado"]) && $_SESSION["logado"] == true) {
+    header("Location: index.php");
+    exit;
+}
 
+if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $usuario = $_POST["email"] ?? null;
     $senha = $_POST["senha"] ?? null;
 
-    $dados = file_get_contents("data/usuario.json");
+    $dados = file_get_contents(__DIR__ . "/../data/usuario.json");
     $credenciais = json_decode($dados, true);
 
     if ($usuario == $credenciais["login"] && $senha == $credenciais["senha"]) {
-    $_SESSION['logado'] = true;
-    header("Location: index.php");
-    exit;
-
+        $_SESSION['logado'] = true;
+        header("Location: index.php");
+        exit;
     } else {
-    header("Location: login.html?erro=1");
-    exit;
+        header("Location: login.php?erro=1");
+        exit;
     }
+}
 ?>
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Login · Sistema de Biblioteca</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;500;600;700&family=PT+Serif:wght@400;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body class="pagina-login">
+
+  <main class="page-main page-main--login">
+    <div class="ficha ficha-login">
+      <span class="site-brand">Bem-vindo!<span></span></span>
+      <p class="site-tagline">Sistema interno de gestão da Biblioteca Cidadão exclusivo para funcionários</p>
+
+      <p class="aviso-dev">
+        Dúvidas sobre suas informações de login? entre em contato com:
+        secretariaEstadualDoParana@gov.edu.br
+      </p>
+
+      <h1 class="page-title" style="border:none; padding:0; text-align:center;">Entrar</h1>
+
+      <p id="mensagem-erro" class="mensagem-erro" style="display:none;">
+        E-mail ou senha incorretos. Tente novamente.
+      </p>
+
+      <form method="POST" action="login.php">
+        <div class="campo">
+          <label for="login-email">E-mail <span class="obrigatorio">*</span></label>
+          <input type="email" id="login-email" name="email" required autocomplete="username" />
+        </div>
+
+        <div class="campo">
+          <label for="login-senha">Senha <span class="obrigatorio">*</span></label>
+          <input type="password" id="login-senha" name="senha" required autocomplete="current-password" />
+        </div>
+
+        <button type="submit" class="botao botao--primario" style="width:100%;">Entrar</button>
+      </form>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    Projeto acadêmico UTFPR, Web servidor — Autores: Luis Stevan, Rayane Alves e Gleice Emilly.
+  </footer>
+
+  <script src="script.js"></script>
+</body>
+</html>
