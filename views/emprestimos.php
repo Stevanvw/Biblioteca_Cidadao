@@ -16,26 +16,29 @@ function buscarPorId($lista, $id) {
 
 $arquivoUsuarios = __DIR__ . "/../data/usuarios.cad.json";
 if (file_exists($arquivoUsuarios)) {
-  $conteudoUsuarios = file_get_contents($arquivoUsuarios);
+    $conteudoUsuarios = file_get_contents($arquivoUsuarios);
     $usuarios = json_decode($conteudoUsuarios, true) ?? [];
 } else {
     $usuarios = [];
 }
 
-
 $arquivoLivros = __DIR__ . "/../data/livros.json";
 if (file_exists($arquivoLivros)) {
-  $conteudoLivros = json_decode(file_get_contents($arquivoLivros), true);
-  $livros = $conteudoLivros["livros"] ?? [];
+    $conteudoLivros = json_decode(file_get_contents($arquivoLivros), true);
+    $livros = $conteudoLivros["livros"] ?? [];
 } else {
-  $livros = [];
+    $livros = [];
 }
-  
 
 $arquivoEmprestimos = __DIR__ . "/../data/emprestimos.cad.json";
 $emprestimos = file_exists($arquivoEmprestimos)
     ? json_decode(file_get_contents($arquivoEmprestimos), true)
     : [];
+
+// Captura mensagens de sucesso ou erro da URL
+$sucesso = $_GET["sucesso"] ?? "";
+$erroTipo = $_GET["erro"] ?? "";
+$mensagemErroUrl = $_GET["msg"] ?? "";
 ?>
 <!DOCTYPE html>
 <html lang="pt-BR">
@@ -71,13 +74,35 @@ $emprestimos = file_exists($arquivoEmprestimos)
   <main class="page-main">
     <h1 class="page-title">Novo empréstimo</h1>
 
+    <!-- Feedback de Sucesso -->
+    <?php if ($sucesso === "emprestimo"): ?>
+      <div class="modal-sucesso" role="alert" style="margin-bottom: 20px;">
+        <div class="modal-sucesso__conteudo" style="padding: 15px; background: #e6f4ea; border: 1px solid #ceead6; border-radius: 4px;">
+          <h2 style="margin: 0 0 5px 0; font-size: 1.1rem; color: #137333;">Sucesso!</h2>
+          <p style="margin: 0; color: #137333;">Empréstimo registrado com sucesso.</p>
+        </div>
+      </div>
+    <?php endif; ?>
+
+    <!-- Feedback de Erros Separados -->
+    <?php if ($erroTipo === "data_invalida"): ?>
+      <div class="mensagem-erro" style="display:block; background: #fce8e6; color: #c5221f; padding: 12px; border-radius: 4px; margin-bottom: 20px;">
+        A data de devolução não pode ser antes da data de empréstimo.
+      </div>
+    <?php elseif ($erroTipo === "livro_indisponivel"): ?>
+      <div class="mensagem-erro" style="display:block; background: #fce8e6; color: #c5221f; padding: 12px; border-radius: 4px; margin-bottom: 20px;">
+        Este livro já está emprestado e ainda não foi devolvido.
+      </div>
+    <?php elseif ($erroTipo === "1" && !empty($mensagemErroUrl)): ?>
+      <div class="mensagem-erro" style="display:block; background: #fce8e6; color: #c5221f; padding: 12px; border-radius: 4px; margin-bottom: 20px;">
+        <?= htmlspecialchars($mensagemErroUrl) ?>
+      </div>
+    <?php endif; ?>
+
     <div class="ficha">
       <div class="ficha__cabecalho">
         <div><strong>Ficha de empréstimo</strong></div>
       </div>
-
-      <p id="mensagem-erro" class="mensagem-erro" style= "display:none;"> Ocorreu um erro.
-      </p>
 
       <form method="POST" action="registrar-emprestimo.php">
         <div class="linha-campos">
