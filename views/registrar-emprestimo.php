@@ -1,7 +1,7 @@
 <?php 
-    session_start();
+session_start();
 
-    if (!isset($_SESSION["logado"]) || $_SESSION["logado"] != true) {
+if (!isset($_SESSION["logado"]) || $_SESSION["logado"] != true) {
     header("Location: login.php");
     exit;
 }
@@ -16,52 +16,64 @@ $livroId = trim($_POST["livro_id"] ?? "");
 $dataEmprestimo = trim($_POST["data_emprestimo"] ?? "");
 $dataDevolucao = trim($_POST["data_devolucao"] ?? "");
 
-$erros = [];
+// 1. Validação de campos vazios genéricos
+$errosCampos = [];
 
 if ($usuarioId === "") {
-    $erros[] = "Selecione o usuário.";
+    $errosCampos[] = "Selecione o usuário.";
 }
 
 if ($livroId === "") {
-    $erros[] = "Selecione o livro.";
+    $errosCampos[] = "Selecione o livro.";
 }
 
 if ($dataEmprestimo === "") {
-    $erros[] = "A data de empréstimo é obrigatória.";
+    $errosCampos[] = "A data de empréstimo é obrigatória.";
 }
 
 if ($dataDevolucao === "") {
-    $erros[] = "A data de devolução é obrigatória.";
-} elseif ($dataDevolucao < $dataEmprestimo) {
-    $erros[] = "A data de devolução não pode ser antes da data de empréstimo.";
+    $errosCampos[] = "A data de devolução é obrigatória.";
 }
 
-$arquivoEmprestimos = __DIR__ . "/../data/emprestimos.cad.json";
-
-if (file_exists($arquivoEmprestimos)) {
-    $dados = file_get_contents($arquivoEmprestimos);
-    $emprestimos = json_decode($dados, true);
-} else {
-    $emprestimos = [];
-}
-
-if ($livroId !== "") {
-    $diaHoje = date("Y-m-d");
-    foreach ($emprestimos as $registro) {
-        if ((string) $registro["livro_id"] === (string) $livroId && $registro["data_devolucao"] >= $diaHoje) {
-            $erros[] = "Este livro já está emprestado e ainda não foi devolvido.";
-            break;
-    }
- }
-}
-
-if (!empty($erros)) {
-    $mensagem = implode(" ", $erros);
+if (!empty($errosCampos)) {
+    $mensagem = implode(" ", $errosCampos);
     header("Location: emprestimos.php?erro=1&msg=" . urlencode($mensagem));
     exit;
 }
 
-$novoId = count($emprestimos) + 1;
+// 2. Validação específica: Data de devolução antes do empréstimo
+if ($dataDevolucao < $dataEmprestimo) {
+    header("Location: emprestimos.php?erro=data_invalida");
+    exit;
+}
+
+// Carrega os empréstimos cadastrados
+$arquivoEmprestimos = __DIR__ . "/../data/emprestimos.cad.json";
+
+if (file_exists($arquivoEmprestimos)) {
+    $dados = file_get_contents($arquivoEmprestimos);
+    $emprestimos = json_decode($dados, true) ?? [];
+} else {
+    $emprestimos = [];
+}
+
+// 3. Validação específica: Livro já emprestado e ainda não devolvido
+if ($livroId !== "") {
+    $diaHoje = date("Y-m-d");
+    foreach ($emprestimos as $registro) {
+        if ((string) $registro["livro_id"] === (string) $livroId && $registro["data_devolucao"] >= $diaHoje) {
+            header("Location: emprestimos.php?erro=livro_indisponivel");
+            exit;
+        }
+    }
+}
+
+// Se passou por todas as validações, calcula o ID e salva o novo empréstimo
+$novoId = 1;
+if (!empty($emprestimos)) {
+    $ids = array_column($emprestimos, 'id');
+    $novoId = max($ids) + 1;
+}
 
 $novoEmprestimo = [
     "id" => $novoId,
@@ -78,7 +90,7 @@ file_put_contents(
     json_encode($emprestimos, JSON_PRETTY_PRINT | JSON_UNESCAPED_UNICODE)
 );
 
-header("Location: emprestimos.php");
+// Redireciona informando que o empréstimo foi feito com sucesso
+header("Location: emprestimos.php?sucesso=emprestimo");
 exit;
-
 ?>
