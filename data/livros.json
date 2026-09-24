@@ -1,36 +1,12 @@
 {
     "livros": [
         {
-            "titulo": "Harry Potter",
-            "autor": "J.R.R. Tolkien",
-            "categoria": "Romance",
-            "editora": "Teste123",
-            "isbn": "1234567891023",
+            "titulo": "Nada pode me ferir",
+            "autor": "David Goggins",
+            "categoria": "Biografia",
+            "editora": "Editora Sextante",
+            "isbn": "9786555646139",
             "id": 1
-        },
-        {
-            "titulo": "Harry Potter 2",
-            "autor": "George Orwell",
-            "categoria": "Tecnologia",
-            "editora": "Teste",
-            "isbn": "1236547890236",
-            "id": 2
-        },
-        {
-            "titulo": "Funciona por favor",
-            "autor": "Isaac Asimov",
-            "categoria": "Conto",
-            "editora": "Aquela la",
-            "isbn": "1122222222222",
-            "id": 3
-        },
-        {
-            "titulo": "Teste2010",
-            "autor": "Machado de Assis",
-            "categoria": "Tecnologia",
-            "editora": "Outra la",
-            "isbn": "4444444444444",
-            "id": 4
         }
     ]
 }
