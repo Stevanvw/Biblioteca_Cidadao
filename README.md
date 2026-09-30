@@ -80,10 +80,15 @@ O sistema possui funcionalidades relacionadas a:
 A aplicação está organizada de forma inspirada no padrão MVC, separando a apresentação, a lógica de controle e o acesso aos dados.
 
 Biblioteca_Cidadao/
-├── controllers/
+|
+├── controllers/ 
+|
 ├── data/
+|
 ├── models/
+|
 ├── views/
+|
 └── README.md
 
  Os principais componentes possuem as seguintes responsabilidades:
