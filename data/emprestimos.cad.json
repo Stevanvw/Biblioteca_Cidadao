@@ -1,9 +1,0 @@
-[
-    {
-        "id": 1,
-        "usuario_id": "1",
-        "livro_id": "1",
-        "data_emprestimo": "2026-09-28",
-        "data_devolucao": "2026-10-05"
-    }
-]

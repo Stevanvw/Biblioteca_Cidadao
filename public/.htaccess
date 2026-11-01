@@ -1,0 +1,5 @@
+# URLs transparentes: se não for um arquivo/pasta real (css, js...), o pedido vai para o index.php
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^ index.php [L]
