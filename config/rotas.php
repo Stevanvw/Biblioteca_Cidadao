@@ -24,7 +24,8 @@ return static function (Router $r): void {
 
     $r->get('/usuarios', [UsuarioController::class, 'index']);
     $r->post('/usuarios', [UsuarioController::class, 'salvar']);
-
+    $r->get('/usuarios/editar', [UsuarioController::class, 'editar']);
+    $r->post('/usuarios/editar', [UsuarioController::class, 'atualizar']);
     $r->get('/emprestimos', [EmprestimoController::class, 'index']);
     $r->post('/emprestimos', [EmprestimoController::class, 'salvar']);
 

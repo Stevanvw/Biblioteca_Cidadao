@@ -40,4 +40,24 @@ class UsuarioDao extends Dao
 
         return (int) $this->bd->lastInsertId();
     }
+    public function atualizar(Usuario $usuario): bool
+    {
+        $id = $usuario->getId();
+        $nome = $usuario->getNome();
+        $email = $usuario->getEmail();
+        $senha = $usuario->getSenha();
+
+        $query = $this->bd->prepare(
+            'UPDATE usuarios
+         SET nome = :nome, email = :email, senha = :senha
+         WHERE id = :id'
+        );
+
+        $query->bindParam(':nome', $nome);
+        $query->bindParam(':email', $email);
+        $query->bindParam(':senha', $senha);
+        $query->bindParam(':id', $id, \PDO::PARAM_INT);
+
+        return $query->execute();
+    }
 }

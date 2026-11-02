@@ -35,16 +35,26 @@
           <tr>
             <th scope="col">Nome</th>
             <th scope="col">E-mail</th>
+            <th scope="col">Ações</th>
           </tr>
         </thead>
         <tbody>
           <?php if (empty($usuarios)): ?>
-            <tr><td colspan="2">Nenhum usuário cadastrado.</td></tr>
+            <tr>
+              <td colspan="3">Nenhum usuário cadastrado.</td>
+            </tr>
           <?php else: ?>
             <?php foreach ($usuarios as $usuario): ?>
               <tr>
                 <td><?= e($usuario->getNome()) ?></td>
                 <td><?= e($usuario->getEmail()) ?></td>
+                <td>
+                  <a
+                    href="<?= e(url('/usuarios/editar?id=' . $usuario->getId())) ?>"
+                    class="botao botao--secundario">
+                    Editar
+                  </a>
+                </td>
               </tr>
             <?php endforeach; ?>
           <?php endif; ?>
