@@ -3,7 +3,8 @@
     "description": "Biblioteca Cidadão - Trabalho de Web Servidor (UTFPR)",
     "type": "project",
     "require": {
-        "php": ">=8.0"
+        "php": ">=8.0",
+        "vlucas/phpdotenv": "^5.8"
     },
     "autoload": {
         "psr-4": {

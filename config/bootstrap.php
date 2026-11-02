@@ -12,6 +12,8 @@ $autoloadComposer = BASE_PATH . '/vendor/autoload.php';
 
 if (is_file($autoloadComposer)) {
     require $autoloadComposer;
+    $dotenv = Dotenv\Dotenv::createImmutable(BASE_PATH);
+    $dotenv->safeLoad();
 } else {
     spl_autoload_register(static function (string $classe): void {
         $mapa = [

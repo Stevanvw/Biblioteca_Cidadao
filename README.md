@@ -6,9 +6,7 @@ A **Biblioteca Cidadão** é uma aplicação web desenvolvida como projeto acad�
 
 O sistema tem como objetivo disponibilizar funcionalidades relacionadas ao gerenciamento de livros de uma biblioteca, permitindo que usuários autenticados (funcionários) cadastrem e consultem livros presentes no sistema, além de possibilitar o gerenciamento de empréstimos de clientes da biblioteca.
 
-O projeto foi desenvolvido utilizando **PHP 8+**, com processamento e validação dos dados no lado do servidor.
-
----
+O projeto foi desenvolvido utilizando **PHP 8+**, Programação Orientada a Objetos (POO), arquitetura MVC, banco de dados MySQL e acesso aos dados por meio de PDO.
 
 ## Integrantes
 
@@ -31,8 +29,8 @@ O projeto foi desenvolvido utilizando **PHP 8+**, com processamento e validaçã
 
 ### Gleice Emilly
 
-* Desenvolvimento das funcionalidades atribuídas ao gerenciamento de usuários;
 * Implementação e integração das funcionalidades em PHP;
+* Desenvolvimento das funcionalidades de cadastro e edição de usuários;
 * Testes e correções das funcionalidades desenvolvidas.
 * Participação na integração e controle de versões utilizando Git e GitHub.
 
@@ -78,9 +76,15 @@ O sistema possui funcionalidades relacionadas a:
 
 * **PHP 8+**
 * **HTML5**
+* **Programação Orientada a Objetos (POO)**
+* **MySQL**
+* **PDO**
+* **COMPOSER**
+* **PHP DOTENV (vlucas/phpdotent)**
 * **CSS3**
 * **JavaScript**
 * **JSON**
+* **Apache**
 * **XAMPP**
 * **Git**
 * **GitHub**
@@ -192,26 +196,6 @@ Entre os dados armazenados estão informações relacionadas a:
 ### Bugs conhecidos
 
 Até a finalização do projeto, não foram identificados bugs conhecidos que impeçam o funcionamento das principais funcionalidades implementadas.
-
-### Limitações do sistema
-
-Como o foco do projeto é a parte de validação e processamento através do PHP, o sistema **não** possui:
-
-* A possibilidade de editar, alterar ou excluir um livro, usuário ou empréstimo cadastrado.
-* A possibilidade de alteração de senha ou nome do usuário dentro do próprio sistema. 
-
-### Funcionalidades faltantes
-
-Divisão correta de responsabilidades seguindo o padrão MVC em arquivos relacionados a:
-
-* Usuários
-* Empréstimos
-
-### Observações
-
-Por utilizar arquivos JSON para armazenamento, o projeto não necessita de configuração ou instalação de um banco de dados para seu funcionamento.
-
----
 
 ## Controle de versão
 
