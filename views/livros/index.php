@@ -20,7 +20,7 @@
             <select id="livro-autor" name="autor_id">
               <option value="" disabled<?= $autorAntigo === '' ? ' selected' : '' ?>>Selecionar</option>
               <?php foreach ($autores as $autor): ?>
-                <option value="<?= e($autor->getId()) ?>"<?= $autorAntigo === (string) $autor->getId() ? ' selected' : '' ?>>
+                <option value="<?= e($autor->getId()) ?>" <?= $autorAntigo === (string) $autor->getId() ? ' selected' : '' ?>>
                   <?= e($autor->getNome()) ?>
                 </option>
               <?php endforeach; ?>
@@ -33,7 +33,7 @@
             <select id="livro-categoria" name="categoria_id">
               <option value="" disabled<?= $categoriaAntiga === '' ? ' selected' : '' ?>>Selecionar</option>
               <?php foreach ($categorias as $categoria): ?>
-                <option value="<?= e($categoria->getId()) ?>"<?= $categoriaAntiga === (string) $categoria->getId() ? ' selected' : '' ?>>
+                <option value="<?= e($categoria->getId()) ?>" <?= $categoriaAntiga === (string) $categoria->getId() ? ' selected' : '' ?>>
                   <?= e($categoria->getNome()) ?>
                 </option>
               <?php endforeach; ?>
@@ -69,11 +69,14 @@
             <th scope="col">Autor</th>
             <th scope="col">Categoria</th>
             <th scope="col">ISBN</th>
+            <th scope="col">Ações</th>
           </tr>
         </thead>
         <tbody>
           <?php if (empty($livros)): ?>
-            <tr><td colspan="4">Nenhum livro cadastrado.</td></tr>
+            <tr>
+              <td colspan="5">Nenhum livro cadastrado.</td>
+            </tr>
           <?php else: ?>
             <?php foreach ($livros as $livro): ?>
               <tr>
@@ -81,6 +84,25 @@
                 <td><?= e($livro->getAutorNome()) ?></td>
                 <td><?= e($livro->getCategoriaNome()) ?></td>
                 <td><?= e($livro->getIsbn()) ?></td>
+                <td>
+                  <a
+                    href="<?= e(url('/livros/editar?id=' . $livro->getId())) ?>"
+                    class="botao botao--secundario">
+                    Editar
+                  </a>
+
+                  <form method="POST"
+                    action="<?= e(url('/livros/excluir')) ?>"
+                    style="display: inline-block;"
+                    onsubmit="return confirm('Tem certeza que deseja excluir este livro?');">
+
+                    <input type="hidden" name="id" value="<?= e((string) $livro->getId()) ?>">
+
+                    <button type="submit" class="botao botao--secundario">
+                      Excluir
+                    </button>
+                  </form>
+                </td>
               </tr>
             <?php endforeach; ?>
           <?php endif; ?>

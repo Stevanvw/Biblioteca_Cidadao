@@ -4,7 +4,6 @@ declare(strict_types=1);
 
 namespace Biblioteca\Models;
 
-
 class Livro
 {
     private ?int $id = null;
@@ -19,6 +18,12 @@ class Livro
     public function getId(): ?int
     {
         return $this->id;
+    }
+
+    public function setId(int $id): static
+    {
+        $this->id = $id;
+        return $this;
     }
 
     public function getTitulo(): string
@@ -81,8 +86,20 @@ class Livro
         return $this->autor_nome;
     }
 
+    public function setAutorNome(?string $autorNome): static
+    {
+        $this->autor_nome = $autorNome;
+        return $this;
+    }
+
     public function getCategoriaNome(): ?string
     {
         return $this->categoria_nome;
+    }
+
+    public function setCategoriaNome(?string $categoriaNome): static
+    {
+        $this->categoria_nome = $categoriaNome;
+        return $this;
     }
 }

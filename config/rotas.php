@@ -16,11 +16,14 @@ return static function (Router $r): void {
     $r->post('/login', [AuthController::class, 'entrar'], publica: true);
     $r->get('/logout', [AuthController::class, 'sair'], publica: true);
 
-    // Área restrita ao funcionário logado
+    // Área restrita ao funcionário já logados
     $r->get('/', [HomeController::class, 'index']);
 
     $r->get('/livros', [LivroController::class, 'index']);
     $r->post('/livros', [LivroController::class, 'salvar']);
+    $r->get('/livros/editar', [LivroController::class, 'editar']);
+    $r->post('/livros/editar', [LivroController::class, 'atualizar']);
+    $r->post('/livros/excluir', [LivroController::class, 'excluir']);
 
     $r->get('/usuarios', [UsuarioController::class, 'index']);
     $r->post('/usuarios', [UsuarioController::class, 'salvar']);

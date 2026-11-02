@@ -36,10 +36,11 @@ class LivroController extends Controller
         ]);
     }
 
-    /** POST: livros — valida e salva um novo livro */
+    /** POST /livros — valida e salva um novo livro */
     public function salvar(): void
     {
         $dados = [];
+
         foreach (['titulo', 'autor_id', 'categoria_id', 'editora', 'isbn'] as $campo) {
             $dados[$campo] = $this->campo($campo);
         }
@@ -64,12 +65,129 @@ class LivroController extends Controller
 
         $this->livroDao->inserir($livro);
 
-
         Sessao::flash('sucesso', 'Livro cadastrado com sucesso!');
         $this->redirecionar('/livros');
     }
 
+    /** GET /livros/editar — carrega o livro para edição */
+    public function editar(): void
+    {
+        $id = filter_var($_GET['id'] ?? null, FILTER_VALIDATE_INT);
 
+        if (!$id || $id <= 0) {
+            Sessao::flash('erro', 'Livro não encontrado.');
+            $this->redirecionar('/livros');
+        }
+
+        $livro = $this->livroDao->buscarPorId($id);
+
+        if (!$livro instanceof Livro) {
+            Sessao::flash('erro', 'Livro não encontrado.');
+            $this->redirecionar('/livros');
+        }
+
+        $this->render('livros/editar', [
+            'titulo'     => 'Editar livro · Sistema de Biblioteca',
+            'menu'       => 'livros',
+            'livro'      => $livro,
+            'autores'    => $this->autorDao->listarTodos(),
+            'categorias' => $this->categoriaDao->listarTodos(),
+        ]);
+    }
+
+    /** POST /livros/editar — valida e atualiza um livro */
+    public function atualizar(): void
+    {
+        $id = filter_var($_POST['id'] ?? null, FILTER_VALIDATE_INT);
+
+        if (!$id || $id <= 0) {
+            Sessao::flash('erro', 'Livro não encontrado.');
+            $this->redirecionar('/livros');
+        }
+
+        $livro = $this->livroDao->buscarPorId($id);
+
+        if (!$livro instanceof Livro) {
+            Sessao::flash('erro', 'Livro não encontrado.');
+            $this->redirecionar('/livros');
+        }
+
+        $dados = [];
+
+        foreach (['titulo', 'autor_id', 'categoria_id', 'editora', 'isbn'] as $campo) {
+            $dados[$campo] = $this->campo($campo);
+        }
+
+        $erros = $this->validar($dados);
+
+        // Verifica se outro livro já utiliza esse ISBN
+        if (!$erros) {
+            $livroExistente = $this->livroDao->buscarPorIsbn($dados['isbn']);
+
+            if (
+                $livroExistente !== null &&
+                (int) $livroExistente->getId() !== (int) $id
+            ) {
+                $erros[] = 'Já existe outro livro cadastrado com esse ISBN.';
+            }
+        }
+
+        if ($erros) {
+            $this->voltarComErros(
+                $erros,
+                '/livros/editar?id=' . $id,
+                $dados
+            );
+        }
+
+        $livro
+            ->setTitulo($dados['titulo'])
+            ->setAutorId((int) $dados['autor_id'])
+            ->setCategoriaId((int) $dados['categoria_id'])
+            ->setEditora($dados['editora'])
+            ->setIsbn($dados['isbn']);
+
+        $this->livroDao->atualizar($livro);
+
+        Sessao::flash('sucesso', 'Livro atualizado com sucesso!');
+        $this->redirecionar('/livros');
+    }
+
+    /** POST /livros/excluir — exclui um livro */
+    public function excluir(): void
+    {
+        $id = filter_var($_POST['id'] ?? null, FILTER_VALIDATE_INT);
+
+        if (!$id || $id <= 0) {
+            Sessao::flash('erro', 'Livro não encontrado.');
+            $this->redirecionar('/livros');
+        }
+
+        $livro = $this->livroDao->buscarPorId($id);
+
+        if (!$livro instanceof Livro) {
+            Sessao::flash('erro', 'Livro não encontrado.');
+            $this->redirecionar('/livros');
+        }
+
+        try {
+            if ($this->livroDao->excluir($id)) {
+                Sessao::flash('sucesso', 'Livro excluído com sucesso!');
+            } else {
+                Sessao::flash('erro', 'Não foi possível excluir o livro.');
+            }
+        } catch (\PDOException $e) {
+            Sessao::flash(
+                'erro',
+                'Não foi possível excluir o livro. Verifique se ele possui empréstimos vinculados.'
+            );
+        }
+
+        // Retorna à listagem após a tentativa de exclusão
+        $this->redirecionar('/livros');
+    }
+
+    /** Valida os dados recebidos do formulário */
     private function validar(array $dados): array
     {
         $erros = [];
@@ -88,23 +206,41 @@ class LivroController extends Controller
             }
         }
 
-        if ($dados['titulo'] !== '' && mb_strlen($dados['titulo']) > 150) {
+        if (
+            $dados['titulo'] !== '' &&
+            mb_strlen($dados['titulo']) > 150
+        ) {
             $erros[] = 'O título não pode ter mais de 150 caracteres.';
         }
 
-        if ($dados['editora'] !== '' && mb_strlen($dados['editora']) > 50) {
+        if (
+            $dados['editora'] !== '' &&
+            mb_strlen($dados['editora']) > 50
+        ) {
             $erros[] = 'O nome da editora não pode ter mais de 50 caracteres.';
         }
 
-        if ($dados['autor_id'] !== '' && (!ctype_digit($dados['autor_id']) || $this->autorDao->buscarPorId((int) $dados['autor_id']) === null)) {
+        if (
+            $dados['autor_id'] !== '' &&
+            (
+                !ctype_digit($dados['autor_id']) ||
+                $this->autorDao->buscarPorId((int) $dados['autor_id']) === null
+            )
+        ) {
             $erros[] = 'O autor selecionado é inválido.';
         }
 
-        if ($dados['categoria_id'] !== '' && (!ctype_digit($dados['categoria_id']) || $this->categoriaDao->buscarPorId((int) $dados['categoria_id']) === null)) {
+        if (
+            $dados['categoria_id'] !== '' &&
+            (
+                !ctype_digit($dados['categoria_id']) ||
+                $this->categoriaDao->buscarPorId((int) $dados['categoria_id']) === null
+            )
+        ) {
             $erros[] = 'A categoria selecionada é inválida.';
         }
 
-        // ISBN: só números e exatamente 13 dígitos
+        // ISBN: somente números e exatamente 13 dígitos
         if ($dados['isbn'] !== '') {
             if (!ctype_digit($dados['isbn'])) {
                 $erros[] = 'O ISBN deve conter somente números.';
